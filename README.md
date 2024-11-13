@@ -2,7 +2,7 @@
 
 This project is a Python-based web scraper that fetches event information from the University of Birmingham's Dubai campus website. It organizes the events into an iCalendar format (.ics) for easy import into calendar applications. The application is built using Flask and BeautifulSoup.
 
-ical preview:
+### iCalendar Subscribe URL:
 [https://uobd.hyh.ltd:2053/events](https://uobd.hyh.ltd:2053/events)
 
 ## Features
@@ -59,6 +59,31 @@ Replace `script.py` with the name of your Python file.
 
 - Open your web browser and go to `http://localhost:5000/` to fetch events and download the iCalendar file.
 - Access `http://localhost:5000/fetch` to manually trigger the event fetching process and receive a JSON response indicating the success or failure of the operation.
+
+### Subscribing to the iCalendar Feed
+
+You can subscribe to the iCalendar feed to receive updates automatically:
+
+1. **Using Google Calendar:**
+   - Open Google Calendar.
+   - On the left side, click the `+` next to "Other calendars."
+   - Select "From URL."
+   - Paste the iCalendar subscribe URL: `https://uobd.hyh.ltd:2053/events`
+   - Click "Add Calendar." The events will now appear in your calendar.
+
+2. **Using Apple Calendar:**
+   - Open Apple Calendar.
+   - From the menu bar, select `File` > `New Calendar Subscription...`
+   - Paste the iCalendar subscribe URL: `https://uobd.hyh.ltd:2053/events`
+   - Click "Subscribe."
+   - Adjust the settings as desired and click "OK."
+
+3. **Using Microsoft Outlook:**
+   - Open Outlook.
+   - Go to the Calendar view.
+   - Click on "Add Calendar" > "From Internet."
+   - Paste the iCalendar subscribe URL: `https://uobd.hyh.ltd:2053/events`
+   - Click "OK" to add the calendar.
 
 ### Directory Structure
 
