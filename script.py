@@ -142,7 +142,7 @@ END:VEVENT
         events_dir = "events"
         output_file = "output.ics"
 
-        ical_content = "BEGIN:VCALENDAR\nVERSION:2.0\nX-WR-CALNAME:Events\n"
+        ical_content = "BEGIN:VCALENDAR\nVERSION:2.0\nX-WR-CALNAME:UoBD Events\n"
         ical_content += self.get_timezone_info()
 
         if os.path.isdir(events_dir):
