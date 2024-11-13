@@ -2,6 +2,9 @@
 
 This project is a Python-based web scraper that fetches event information from the University of Birmingham's Dubai campus website. It organizes the events into an iCalendar format (.ics) for easy import into calendar applications. The application is built using Flask and BeautifulSoup.
 
+ical preview:
+[https://uobd.hyh.ltd:2053/events](https://uobd.hyh.ltd:2053/events)
+
 ## Features
 
 - Scrapes event data from a specified URL.
