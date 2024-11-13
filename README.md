@@ -60,7 +60,9 @@ Replace `script.py` with the name of your Python file.
 - Open your web browser and go to `http://localhost:5000/` to fetch events and download the iCalendar file.
 - Access `http://localhost:5000/fetch` to manually trigger the event fetching process and receive a JSON response indicating the success or failure of the operation.
 
-### Subscribing to the iCalendar Feed
+### Subscribing to the iCalendar Feed (Need to configurate nginx proxy for http://127.0.0.1:5000)
+
+below example: `https://uobd.hyh.ltd:2053/events` proxy `http://127.0.0.1:5000`
 
 You can subscribe to the iCalendar feed to receive updates automatically:
 
