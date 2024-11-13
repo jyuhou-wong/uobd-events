@@ -8,6 +8,8 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 from datetime import datetime, timedelta
 from flask import Flask, send_from_directory, jsonify
+import threading
+import time
 
 app = Flask(__name__)
 
@@ -175,6 +177,12 @@ END:VTIMEZONE
 scraper = EventScraper("https://dubaievents.bham.ac.uk/whatson/")
 
 
+def fetch_events_periodically(interval=3600):
+    while True:
+        scraper.fetch_events()
+        time.sleep(interval)
+
+
 @app.route("/", methods=["GET"])
 def main_route():
     if (datetime.now() - scraper.last_fetch_time) > timedelta(minutes=5):
@@ -212,6 +220,10 @@ def fetch_events_route():
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "server":
+        # Start the background thread for periodic fetching
+        threading.Thread(
+            target=fetch_events_periodically, args=(900,), daemon=True
+        ).start()
         app.run(host="0.0.0.0", port=5000)
     else:
         scraper.fetch_events()
