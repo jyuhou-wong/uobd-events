@@ -34,7 +34,7 @@ This project is a Python-based web scraper that fetches event information from t
    You can use `pip` to install the necessary libraries:
 
    ```bash
-   pip install Flask requests beautifulsoup4
+   pip install beautifulsoup4 Flask pytz requests
    ```
 
    or
