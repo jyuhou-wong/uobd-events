@@ -9,18 +9,26 @@ from datetime import datetime, timedelta
 
 
 class EventFetcher:
-    def __init__(self, url="https://dubaievents.bham.ac.uk/whatson/"):
+    def __init__(
+        self,
+        url,
+        timezone,
+        online_only=False,
+    ):
         self.url = url
+        self.timezone = timezone
+        self.online_only = online_only
         self.current_year = datetime.now().year
 
     def fetch_events(self):
         response = requests.get(self.url)
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, "html.parser")
-            events = [
-                self.process_event(item)
-                for item in soup.select(".squares-events .event_item")
-            ]
+            events = []
+            for item in soup.select(".squares-events .event_item"):
+                event = self.process_event(item)
+                if event:
+                    events.append(event)
             return events
         else:
             print(f"Request failed, status code: {response.status_code}")
@@ -33,6 +41,9 @@ class EventFetcher:
         location = item.select_one(".msl_event_location").get_text()
         description = item.select_one(".msl_event_description").get_text()
         types = [x.get_text() for x in item.select(".msl_event_types a")]
+
+        if self.online_only and location != "Online":
+            return
 
         if link and link.get("href"):
             full_url = urljoin(self.url, link.get("href"))
@@ -75,8 +86,7 @@ class EventFetcher:
             second,
         )
 
-        # Localize to the current timezone (UTC+4)
-        local_tz = pytz.timezone("Etc/GMT-4")  # GMT-4 对应 UTC+4
+        local_tz = pytz.timezone(self.timezone)
         localized_datetime = local_tz.localize(naive_datetime)
 
         # Convert to UTC
@@ -94,7 +104,7 @@ class EventFetcher:
             time_part = dt_str.strip()
 
         time_components = time_part.split(":")
-        hour = int(time_components[0])
+        hour = int(time_components[0]) if time_components[0] != "noon" else 12
         minute = int(time_components[1]) if len(time_components) > 1 else 0
         second = int(time_components[2]) if len(time_components) > 2 else 0
 
@@ -123,4 +133,9 @@ END:VEVENT
 
 
 if __name__ == "__main__":
-    EventFetcher().fetch_events()
+    EventFetcher(
+        "https://studentevents.bham.ac.uk/whatson/", "Europe/London", True
+    ).fetch_events()
+    EventFetcher(
+        "https://dubaievents.bham.ac.uk/whatson/", "Asia/Dubai", False
+    ).fetch_events()

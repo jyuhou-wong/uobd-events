@@ -8,7 +8,7 @@ from flask import Flask, send_from_directory, jsonify
 import threading
 import time
 
-from decoder import dubai_events1, dubai_events2
+from decoder import uob_events, dubai_events1
 
 app = Flask(__name__)
 
@@ -19,8 +19,13 @@ class EventScraper:
 
     def fetch_events(self):
         events = [
+            *uob_events.EventFetcher(
+                "https://studentevents.bham.ac.uk/whatson/", "Europe/London", True
+            ).fetch_events(),
+            *uob_events.EventFetcher(
+                "https://dubaievents.bham.ac.uk/whatson/", "Asia/Dubai", False
+            ).fetch_events(),
             *dubai_events1.EventFetcher().fetch_events(),
-            *dubai_events2.EventFetcher().fetch_events(),
         ]
 
         for name, event in events:
